@@ -13,7 +13,7 @@ def generate_table(ddb, table_name: str):
                          endpoint_url=os.getenv('ENDPOINT_URL'),
                          region_name=AWS_REGION_NAME,
                          # note that if you create a table using different region name and aws key
-                         aws_access_key_id=os.getenv('AWS_ACCESS_KEY_ID', 'example'),
+                         aws_access_key_id=os.getenv('AWS_ACCESS_KEY_ID'),
                          # you won't see this table on the admin app
                          aws_secret_access_key=('AWS_SECRET_ACCESS_KEY', 'example'))
 

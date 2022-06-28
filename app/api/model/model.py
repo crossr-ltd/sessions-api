@@ -30,5 +30,6 @@ class DataImport(BaseModel):
 
 class Session(BaseModel):
     session_id: str
+    user_id: str
     positions: Optional[List[Position]]
     data_imports: Optional[List[DataImport]]
