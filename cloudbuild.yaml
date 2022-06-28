@@ -1,0 +1,21 @@
+steps:
+  - name: 'gcr.io/cloud-builders/docker'
+    id: build-image
+    args: [
+      'build', '.', '-t', 'gcr.io/crossr/sessions-api:$SHORT_SHA'
+    ]
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['push', 'gcr.io/crossr/sessions-api:$SHORT_SHA']
+    id: push-image
+    waitFor: ['build-image']
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+    entrypoint: gcloud
+    id: deploy
+    args: ['run', 'deploy', 'sessions-api', '--image', 'gcr.io/crossr/sessions-api:$SHORT_SHA', '--service-account', 'sessions-api@crossr.iam.gserviceaccount.com',
+           '--region', 'europe-west4', '--platform', 'managed']
+    waitFor: ['push-image']
+
+images: [
+  'gcr.io/crossr/sessions-api:$SHORT_SHA'
+]
+timeout: 1800s
