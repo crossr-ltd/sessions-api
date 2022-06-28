@@ -21,13 +21,13 @@ def generate_table(ddb, table_name: str):
         TableName=table_name,  # create table
         AttributeDefinitions=[
             {
-                'AttributeName': 'uid',  # In this case, I only specified uid as partition key (there is no sort key)
+                'AttributeName': 'id',  # In this case, I only specified uid as partition key (there is no sort key)
                 'AttributeType': 'S'  # with type string
             }
         ],
         KeySchema=[
             {
-                'AttributeName': 'uid',  # attribute uid serves as partition key
+                'AttributeName': 'id',  # attribute uid serves as partition key
                 'KeyType': 'HASH'
             }
         ],
