@@ -6,6 +6,9 @@ name = "pypi"
 [packages]
 fastapi = "*"
 python-dotenv = "*"
+pyjwt = "*"
+boto3 = "*"
+pydantic = "*"
 
 [dev-packages]
 
