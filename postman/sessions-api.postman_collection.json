@@ -1,0 +1,539 @@
+{
+	"info": {
+		"_postman_id": "12f5f6de-c092-43e8-94cc-7a9327dd31d0",
+		"name": "sessions-api",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "/sessions/{id}",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "oauth2",
+					"oauth2": [
+						{
+							"key": "scope",
+							"value": "openid",
+							"type": "string"
+						},
+						{
+							"key": "resource",
+							"value": {
+								"f446e2e8-c5d9-497f-8106-a9366b12ce9b": "https://dev-58395414.okta.com/oauth2/default"
+							},
+							"type": "any"
+						},
+						{
+							"key": "audience",
+							"value": {
+								"cf935310-4f67-45f7-b713-3a07f91022b6": "api://default"
+							},
+							"type": "any"
+						},
+						{
+							"key": "grant_type",
+							"value": "authorization_code_with_pkce",
+							"type": "string"
+						},
+						{
+							"key": "client_authentication",
+							"value": "body",
+							"type": "string"
+						},
+						{
+							"key": "useBrowser",
+							"value": true,
+							"type": "boolean"
+						},
+						{
+							"key": "state",
+							"value": "thisisrandomyo",
+							"type": "string"
+						},
+						{
+							"key": "addTokenTo",
+							"value": "header",
+							"type": "string"
+						},
+						{
+							"key": "redirect_uri",
+							"value": "http://localhost:3000/login/callback",
+							"type": "string"
+						},
+						{
+							"key": "clientId",
+							"value": "{{clientId}}",
+							"type": "string"
+						},
+						{
+							"key": "authUrl",
+							"value": "{{authUrl}}",
+							"type": "string"
+						},
+						{
+							"key": "accessTokenUrl",
+							"value": "{{accessTokenUrl}}",
+							"type": "string"
+						},
+						{
+							"key": "tokenName",
+							"value": "Crossr API",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5000/api/sessions/b",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"sessions",
+						"b"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/sessions/all",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "oauth2",
+					"oauth2": [
+						{
+							"key": "scope",
+							"value": "openid",
+							"type": "string"
+						},
+						{
+							"key": "resource",
+							"value": {
+								"f446e2e8-c5d9-497f-8106-a9366b12ce9b": "https://dev-58395414.okta.com/oauth2/default"
+							},
+							"type": "any"
+						},
+						{
+							"key": "audience",
+							"value": {
+								"cf935310-4f67-45f7-b713-3a07f91022b6": "api://default"
+							},
+							"type": "any"
+						},
+						{
+							"key": "grant_type",
+							"value": "authorization_code_with_pkce",
+							"type": "string"
+						},
+						{
+							"key": "client_authentication",
+							"value": "body",
+							"type": "string"
+						},
+						{
+							"key": "useBrowser",
+							"value": true,
+							"type": "boolean"
+						},
+						{
+							"key": "state",
+							"value": "thisisrandomyo",
+							"type": "string"
+						},
+						{
+							"key": "addTokenTo",
+							"value": "header",
+							"type": "string"
+						},
+						{
+							"key": "redirect_uri",
+							"value": "http://localhost:3000/login/callback",
+							"type": "string"
+						},
+						{
+							"key": "clientId",
+							"value": "{{clientId}}",
+							"type": "string"
+						},
+						{
+							"key": "authUrl",
+							"value": "{{authUrl}}",
+							"type": "string"
+						},
+						{
+							"key": "accessTokenUrl",
+							"value": "{{accessTokenUrl}}",
+							"type": "string"
+						},
+						{
+							"key": "tokenName",
+							"value": "Crossr API",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5000/api/sessions/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"sessions",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/sessions/{id}/delete",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "oauth2",
+					"oauth2": [
+						{
+							"key": "scope",
+							"value": "openid",
+							"type": "string"
+						},
+						{
+							"key": "resource",
+							"value": {
+								"f446e2e8-c5d9-497f-8106-a9366b12ce9b": "https://dev-58395414.okta.com/oauth2/default"
+							},
+							"type": "any"
+						},
+						{
+							"key": "audience",
+							"value": {
+								"cf935310-4f67-45f7-b713-3a07f91022b6": "api://default"
+							},
+							"type": "any"
+						},
+						{
+							"key": "grant_type",
+							"value": "authorization_code_with_pkce",
+							"type": "string"
+						},
+						{
+							"key": "client_authentication",
+							"value": "body",
+							"type": "string"
+						},
+						{
+							"key": "useBrowser",
+							"value": true,
+							"type": "boolean"
+						},
+						{
+							"key": "state",
+							"value": "thisisrandomyo",
+							"type": "string"
+						},
+						{
+							"key": "addTokenTo",
+							"value": "header",
+							"type": "string"
+						},
+						{
+							"key": "redirect_uri",
+							"value": "http://localhost:3000/login/callback",
+							"type": "string"
+						},
+						{
+							"key": "clientId",
+							"value": "{{clientId}}",
+							"type": "string"
+						},
+						{
+							"key": "authUrl",
+							"value": "{{authUrl}}",
+							"type": "string"
+						},
+						{
+							"key": "accessTokenUrl",
+							"value": "{{accessTokenUrl}}",
+							"type": "string"
+						},
+						{
+							"key": "tokenName",
+							"value": "Crossr API",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5000/api/sessions/x/delete",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"sessions",
+						"x",
+						"delete"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/sessions/update",
+			"request": {
+				"auth": {
+					"type": "oauth2",
+					"oauth2": [
+						{
+							"key": "scope",
+							"value": "openid",
+							"type": "string"
+						},
+						{
+							"key": "resource",
+							"value": {
+								"f446e2e8-c5d9-497f-8106-a9366b12ce9b": "https://dev-58395414.okta.com/oauth2/default"
+							},
+							"type": "any"
+						},
+						{
+							"key": "audience",
+							"value": {
+								"cf935310-4f67-45f7-b713-3a07f91022b6": "api://default"
+							},
+							"type": "any"
+						},
+						{
+							"key": "grant_type",
+							"value": "authorization_code_with_pkce",
+							"type": "string"
+						},
+						{
+							"key": "client_authentication",
+							"value": "body",
+							"type": "string"
+						},
+						{
+							"key": "useBrowser",
+							"value": true,
+							"type": "boolean"
+						},
+						{
+							"key": "state",
+							"value": "thisisrandomyo",
+							"type": "string"
+						},
+						{
+							"key": "addTokenTo",
+							"value": "header",
+							"type": "string"
+						},
+						{
+							"key": "redirect_uri",
+							"value": "http://localhost:3000/login/callback",
+							"type": "string"
+						},
+						{
+							"key": "clientId",
+							"value": "{{clientId}}",
+							"type": "string"
+						},
+						{
+							"key": "authUrl",
+							"value": "{{authUrl}}",
+							"type": "string"
+						},
+						{
+							"key": "accessTokenUrl",
+							"value": "{{accessTokenUrl}}",
+							"type": "string"
+						},
+						{
+							"key": "tokenName",
+							"value": "Crossr API",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"session\" : {\n    \"id\": \"b\",\n    \"positions\": [\n        {\n            \"point_x\": 20,\n            \"node_id\": \"abc\",\n            \"point_y\": 12\n        }\n    ],\n    \"user_id\": \"c\",\n    \"data_imports\": []\n}\n}\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5000/api/sessions/update",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"sessions",
+						"update"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/sessions/create",
+			"request": {
+				"auth": {
+					"type": "oauth2",
+					"oauth2": [
+						{
+							"key": "scope",
+							"value": "openid",
+							"type": "string"
+						},
+						{
+							"key": "resource",
+							"value": {
+								"f446e2e8-c5d9-497f-8106-a9366b12ce9b": "https://dev-58395414.okta.com/oauth2/default"
+							},
+							"type": "any"
+						},
+						{
+							"key": "audience",
+							"value": {
+								"cf935310-4f67-45f7-b713-3a07f91022b6": "api://default"
+							},
+							"type": "any"
+						},
+						{
+							"key": "grant_type",
+							"value": "authorization_code_with_pkce",
+							"type": "string"
+						},
+						{
+							"key": "client_authentication",
+							"value": "body",
+							"type": "string"
+						},
+						{
+							"key": "useBrowser",
+							"value": true,
+							"type": "boolean"
+						},
+						{
+							"key": "state",
+							"value": "thisisrandomyo",
+							"type": "string"
+						},
+						{
+							"key": "addTokenTo",
+							"value": "header",
+							"type": "string"
+						},
+						{
+							"key": "redirect_uri",
+							"value": "http://localhost:3000/login/callback",
+							"type": "string"
+						},
+						{
+							"key": "clientId",
+							"value": "{{clientId}}",
+							"type": "string"
+						},
+						{
+							"key": "authUrl",
+							"value": "{{authUrl}}",
+							"type": "string"
+						},
+						{
+							"key": "accessTokenUrl",
+							"value": "{{accessTokenUrl}}",
+							"type": "string"
+						},
+						{
+							"key": "tokenName",
+							"value": "Crossr API",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"session\" : {\n    \"id\": \"x\",\n    \"positions\": [\n        {\n            \"point_x\": 20,\n            \"node_id\": \"abc\",\n            \"point_y\": 12\n        }\n    ],\n    \"user_id\": \"c\",\n    \"data_imports\": []\n}\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5000/api/sessions/create",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"sessions",
+						"create"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

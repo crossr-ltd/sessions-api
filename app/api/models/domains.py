@@ -6,11 +6,13 @@ from pydantic import BaseModel
 from pydantic.types import UUID4
 from typing import List, Optional, Any
 
+from decimal import Decimal
+
 
 class Position(BaseModel):
     node_id: str
-    point_x: float
-    point_y: float
+    point_x: Decimal
+    point_y: Decimal
 
 
 class DataImportType(str, Enum):

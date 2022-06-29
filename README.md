@@ -10,4 +10,4 @@
 [FastAPI App to Production AWS](https://medium.com/aws-tip/taking-a-fastapi-app-to-production-on-aws-189ebf3defed)
 
 #### Development Notes
-- Start API - `uvicorn app.main:app --reload`
+- Start API - `uvicorn app.main:app --reload --port 5000`
