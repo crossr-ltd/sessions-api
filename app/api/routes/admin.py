@@ -3,19 +3,17 @@ import os
 import boto3
 from dotenv import load_dotenv
 
-from app.constants import AWS_REGION_NAME
-
 load_dotenv()
 
 
 def generate_table(ddb, table_name: str):
     ddb = boto3.resource('dynamodb',
                          endpoint_url=os.getenv('ENDPOINT_URL'),
-                         region_name=AWS_REGION_NAME,
+                         region_name=os.getenv('AWS_REGION_NAME'),
                          # note that if you create a table using different region name and aws key
                          aws_access_key_id=os.getenv('AWS_ACCESS_KEY_ID'),
                          # you won't see this table on the admin app
-                         aws_secret_access_key=('AWS_SECRET_ACCESS_KEY', 'example'))
+                         aws_secret_access_key=os.getenv('AWS_SECRET_ACCESS_KEY'))
 
     ddb.create_table(
         TableName=table_name,  # create table

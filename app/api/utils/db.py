@@ -9,10 +9,10 @@ load_dotenv()
 
 def initialize_db() -> ServiceResource:
     ddb = boto3.resource('dynamodb',
-                         endpoint_url='http://localhost:8000',
-                         region_name='us-east-1',
+                         endpoint_url=os.getenv('ENDPOINT_URL'),
+                         region_name=os.getenv('AWS_REGION_NAME'),
                          aws_access_key_id=os.getenv('AWS_ACCESS_KEY_ID'),
-                         aws_secret_access_key='example')
+                         aws_secret_access_key=os.getenv('AWS_SECRET_ACCESS_KEY'))
     return ddb
 
 

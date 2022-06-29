@@ -5,5 +5,3 @@ ALLOWED_HOSTS = [
     "http://localhost:3000",
     "https://app.crossr.co.uk",
 ]
-
-AWS_REGION_NAME = 'example'

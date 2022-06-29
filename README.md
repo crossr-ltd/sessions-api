@@ -11,3 +11,8 @@
 
 #### Development Notes
 - Start API - `uvicorn app.main:app --reload --port 5000`
+
+#### DynamoDB
+- region: `us-east-1`
+- standard endpoint for region: `ENDPOINT_URL=https://dynamodb.us-east-1.amazonaws.com`
+- DynamoDB is deployed to AWS via managed service, service account `sessions-api-service` is used.
