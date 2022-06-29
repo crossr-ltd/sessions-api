@@ -30,8 +30,16 @@ class DataImport(BaseModel):
     color: str
 
 
-class Session(BaseModel):
+class SessionMetadata(BaseModel):
     id: str
     user_id: str
+    name: str
+    creation_date: str
+    description: Optional[str]
+
+
+class Session(BaseModel):
+    id: str
+    metadata: SessionMetadata
     positions: Optional[List[Position]]
     data_imports: Optional[List[DataImport]]

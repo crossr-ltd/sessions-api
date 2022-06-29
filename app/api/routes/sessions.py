@@ -1,7 +1,8 @@
 from fastapi import APIRouter, Request
 
 from app.api.models.schemas import SessionUpdateParams, SessionCreateParams
-from app.api.services.sessions import get_session, update_session, get_all_sessions, create_session, delete_session
+from app.api.services.sessions import get_session, update_session, get_all_sessions, create_session, delete_session, \
+    get_all_sessions_metadata
 
 router = APIRouter()
 
@@ -24,6 +25,11 @@ async def session_delete(request: Request, id: str):
 @router.get("/")
 async def session_get_all(request: Request):
     return get_all_sessions()
+
+
+@router.get("/")
+async def session_get_all_metadata(request: Request):
+    return get_all_sessions_metadata()
 
 
 @router.post("/create")

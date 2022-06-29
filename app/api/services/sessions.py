@@ -15,6 +15,13 @@ def get_all_sessions():
     return response.get('Items', [])  # return data
 
 
+def get_all_sessions_metadata():
+    table = db.Table('Sessions')  # referencing to table Sessions
+    response = table.scan()  # scan all data
+    sessions = response.get('Items', [])
+    return [session['metadata'] for session in sessions]
+
+
 def get_session(id: str):
     try:
         table = db.Table('Sessions')  # referencing to table Sessions
