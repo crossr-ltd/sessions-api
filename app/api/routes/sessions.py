@@ -27,9 +27,9 @@ async def session_delete(request: Request, id: str):
 #     return get_all_sessions()
 
 
-@router.get("/")
+@router.get("")
 async def session_get_all_metadata(request: Request):
-    return get_all_sessions_metadata()
+    return get_all_sessions_metadata(user_id=request.state.user_id)
 
 
 @router.post("/create")

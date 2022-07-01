@@ -1,5 +1,6 @@
 import json
 from decimal import Decimal
+from typing import List
 
 from boto3.resources.base import ServiceResource
 from botocore.exceptions import ClientError
@@ -16,11 +17,11 @@ def get_all_sessions():
     return response.get('Items', [])  # return data
 
 
-def get_all_sessions_metadata():
+def get_all_sessions_metadata(user_id):
     table = db.Table('Sessions')  # referencing to table Sessions
     response = table.scan()  # scan all data
     sessions = response.get('Items', [])
-    return [session.get('metadata', {}) for session in sessions]
+    return [session.get('metadata', {}) for session in sessions if session.get('metadata', {}).get('user_id', '') == str(user_id)]
 
 
 def get_session(id: str):
