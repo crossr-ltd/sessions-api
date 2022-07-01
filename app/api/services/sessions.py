@@ -1,10 +1,11 @@
+import json
+from decimal import Decimal
+
 from boto3.resources.base import ServiceResource
 from botocore.exceptions import ClientError
 
-from app.api.models.domains import Session, Position
+from app.api.models.domains import Session
 from app.api.utils.db import get_db
-
-from decimal import Decimal
 
 db: ServiceResource = get_db()
 
@@ -19,7 +20,7 @@ def get_all_sessions_metadata():
     table = db.Table('Sessions')  # referencing to table Sessions
     response = table.scan()  # scan all data
     sessions = response.get('Items', [])
-    return [session['metadata'] for session in sessions]
+    return [session.get('metadata', {}) for session in sessions]
 
 
 def get_session(id: str):
@@ -50,10 +51,11 @@ def update_session(session: Session):
 
 
 def create_session(session: Session):
+    session_dict = session.dict()
+    session = json.loads(json.dumps(session_dict), parse_float=Decimal)
     table = db.Table('Sessions')
-    response = table.put_item(Item=session.dict())
+    response = table.put_item(Item=session)
     return response
-
 
 def delete_session(id: str):
     table = db.Table('Sessions')  # referencing to table Sessions

@@ -22,9 +22,9 @@ async def session_delete(request: Request, id: str):
     return delete_session(id)
 
 
-@router.get("/")
-async def session_get_all(request: Request):
-    return get_all_sessions()
+# @router.get("/")
+# async def session_get_all(request: Request):
+#     return get_all_sessions()
 
 
 @router.get("/")
