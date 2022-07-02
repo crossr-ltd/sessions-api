@@ -1,6 +1,8 @@
+from typing import List
+
 from pydantic import BaseModel
 
-from app.api.models.domains import Session
+from app.api.models.domains import Session, DatasetMetadata, DatasetRow
 
 
 class SessionUpdateParams(BaseModel):
@@ -9,3 +11,12 @@ class SessionUpdateParams(BaseModel):
 
 class SessionCreateParams(BaseModel):
     session: Session
+
+
+class DatasetUpdateParams(BaseModel):
+    metadata: DatasetMetadata
+
+
+class DatasetCreateParams(BaseModel):
+    metadata: DatasetMetadata
+    rows: List[DatasetRow]

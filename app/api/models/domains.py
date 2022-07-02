@@ -1,6 +1,51 @@
 from pydantic import BaseModel
 from typing import List, Optional, Any
 
+from app.enums import DatasetType
+
+
+class DatasetMappingMetadata(BaseModel):
+    mapped_count: int
+    not_mapped_count: int
+
+
+class DatasetMetadata(BaseModel):
+    id: str
+    type: DatasetType
+    user_id: Optional[str]
+    name: str
+    description: Optional[str]
+    date: str
+    primary_quantification_key: Optional[str]
+    primary_category_key: Optional[str]
+    other_categories_keys: Optional[List[str]]
+    mapping_metadata: Optional[DatasetMappingMetadata]
+
+
+class DatasetRowMapping(BaseModel):
+    mapped: bool
+    id: Optional[str]
+    name: Optional[str]
+    type: Optional[str]
+
+
+class DatasetRow(BaseModel):
+    id: Optional[str]
+    name: Optional[str]
+    primary_quantification_value: float
+    p_value: Optional[float]
+    fdr_value: Optional[float]
+    primary_category_value: Optional[str]
+    other_categories: Optional[List[dict]]
+    node_type: str
+    mapping: Optional[DatasetRowMapping]
+
+
+class Dataset(BaseModel):
+    id: str
+    metadata: DatasetMetadata
+    rows: List[DatasetRow]
+
 
 class SessionMetadata(BaseModel):
     id: str
