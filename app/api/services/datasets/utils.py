@@ -9,10 +9,13 @@ import requests
 from dotenv import load_dotenv
 
 from app.api.models.domains import DatasetRow, DatasetMetadata, DatasetMappingMetadata, DatasetRowMapping
+from app.enums import DatasetType
 
 load_dotenv()
 
-def validate_dataset(metadata: DatasetMetadata, rows: List[DatasetRow]) -> Tuple[bool, List[str]]:
+
+def validate_dataset(metadata: DatasetMetadata, rows: List[DatasetRow], dataset_type: DatasetType) -> Tuple[
+    bool, List[str]]:
     validation_errors = []
     return len(validation_errors) == 0, validation_errors
 
@@ -44,12 +47,13 @@ def get_fdr_values(rows: List[DatasetRow]) -> List[DatasetRow]:
     return rows_with_fdr
 
 
-def get_mappings(rows: List[DatasetRow]) -> Tuple[List[DatasetRowMapping], DatasetMappingMetadata]:
-    mapping_input_data = dict(mapping_keys=["id", "name"], mapping_values=[dict(id=row.id, name=row.name) for row in rows])
+def get_mappings(rows: List[DatasetRow]) -> Tuple[List[DatasetRow], DatasetMappingMetadata]:
+    mapping_input_data = dict(mapping_keys=["id", "name"],
+                              mapping_values=[dict(id=row.id, name=row.name) for row in rows])
 
-    headers = {  'Content-Type': 'application/json',
-        'Accept': 'application/json',
-        'Authorization': f"Bearer {os.getenv('AUTH0_BEARER_TOKEN')}"}
+    headers = {'Content-Type': 'application/json',
+               'Accept': 'application/json',
+               'Authorization': f"Bearer {os.getenv('AUTH0_BEARER_TOKEN')}"}
 
     url = f"{os.getenv('KNOWLEDGE_GRAPH_API_URL')}/datasets/map-rows"
     data = json.dumps(dict(node_mappings_input=mapping_input_data))

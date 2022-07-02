@@ -11,11 +11,11 @@ class DatasetMappingMetadata(BaseModel):
 
 class DatasetMetadata(BaseModel):
     id: str
-    type: DatasetType
-    user_id: Optional[str]
     name: str
-    description: Optional[str]
+    type: DatasetType
     date: str
+    user_id: Optional[str]
+    description: Optional[str]
     primary_quantification_key: Optional[str]
     primary_category_key: Optional[str]
     other_categories_keys: Optional[List[str]]
@@ -32,12 +32,12 @@ class DatasetRowMapping(BaseModel):
 class DatasetRow(BaseModel):
     id: Optional[str]
     name: Optional[str]
-    primary_quantification_value: float
+    node_type: Optional[str]
+    primary_quantification_value: Optional[float]
     p_value: Optional[float]
     fdr_value: Optional[float]
     primary_category_value: Optional[str]
     other_categories: Optional[List[dict]]
-    node_type: str
     mapping: Optional[DatasetRowMapping]
 
 

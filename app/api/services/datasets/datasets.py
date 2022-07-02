@@ -37,7 +37,7 @@ def get_dataset(id: str) -> Dataset:
 
 
 def create_experimental_dataset(metadata: DatasetMetadata, rows: List[DatasetRow]):
-    dataset_valid, validation_errors = validate_dataset(metadata, rows)
+    dataset_valid, validation_errors = validate_dataset(metadata, rows, DatasetType.EXPERIMENTAL)
     if not dataset_valid:
         raise Exception("-".join(validation_errors))
 
@@ -47,15 +47,19 @@ def create_experimental_dataset(metadata: DatasetMetadata, rows: List[DatasetRow
     return Dataset(id=metadata.id, metadata=metadata, rows=rows_with_mappings)
 
 
+def create_set_dataset(metadata: DatasetMetadata, rows: List[DatasetRow]):
+
+
+
 def create_dataset(metadata: DatasetMetadata, rows: List[DatasetRow]):
     # any initial validation.
     if metadata.type == DatasetType.EXPERIMENTAL:
         dataset = create_experimental_dataset(metadata, rows)
     else:
         raise NotImplementedError()
-    # table = db.Table('Datasets')
-    # response = table.put_item(Item=json.loads(json.dumps(dataset.dict()), parse_float=Decimal))
-    return True
+    table = db.Table('Datasets')
+    response = table.put_item(Item=json.loads(json.dumps(dataset.dict()), parse_float=Decimal))
+    return response
 
 
 def delete_dataset(id: str):
