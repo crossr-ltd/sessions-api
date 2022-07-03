@@ -21,6 +21,8 @@ class DatasetMetadata(BaseModel):
     other_categories_keys: Optional[List[str]]
     mapping_metadata: Optional[DatasetMappingMetadata]
     query: Optional[Any]
+    node_types: Optional[List[str]]
+    size: Optional[int]
 
 
 class DatasetRowMapping(BaseModel):
@@ -38,7 +40,7 @@ class DatasetRow(BaseModel):
     p_value: Optional[float]
     fdr_value: Optional[float]
     primary_category_value: Optional[str]
-    other_categories: Optional[List[dict]]
+    other_categories: Optional[dict]
     mapping: Optional[DatasetRowMapping]
 
 

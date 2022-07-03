@@ -23,9 +23,9 @@ def get_all_datasets_metadata(user_id):
     table = db.Table('Datasets')  # referencing to table Datasets
     response = table.scan()  # scan all data
     datasets = response.get('Items', [])
-    return [dataset.get('metadata', {}) for dataset in datasets if
-            dataset.get('metadata', {}).get('user_id', '') == str(user_id)]
-
+    # return [dataset.get('metadata', {}) for dataset in datasets if
+    #         dataset.get('metadata', {}).get('user_id', '') == str(user_id)]
+    return [dataset.get('metadata', {}) for dataset in datasets]
 
 def get_dataset(id: str) -> Dataset:
     try:
@@ -44,6 +44,8 @@ def create_experimental_dataset(metadata: DatasetMetadata, rows: List[DatasetRow
     rows_with_fdr_value = get_fdr_values(rows)
     rows_with_mappings, mapping_metadata = get_mappings(rows_with_fdr_value)
     metadata.mapping_metadata = mapping_metadata
+    metadata.size = mapping_metadata.mapped_count
+    metadata.node_types = list(set([row.mapping['type'] for row in rows if row.mapping['type'] is not None]))
     return Dataset(id=metadata.id, metadata=metadata, rows=rows_with_mappings)
 
 
@@ -55,13 +57,16 @@ def create_set_dataset(metadata: DatasetMetadata, rows: List[DatasetRow], perfor
     if perform_mapping:
         rows_with_mappings, mapping_metadata = get_mappings(rows)
         metadata.mapping_metadata = mapping_metadata
+        metadata.size = mapping_metadata.mapped_count
+        metadata.node_types = list(set([row.mapping['type'] for row in rows if row.mapping['type'] is not None]))
         return Dataset(id=metadata.id, metadata=metadata, rows=rows_with_mappings)
     else:
+        metadata.size = len(rows)
+        metadata.node_types = list(set([row.node_type for row in rows if row.mapping['type'] is not None]))
         return Dataset(id=metadata.id, metadata=metadata, rows=rows)
 
 
 def create_dataset(metadata: DatasetMetadata, rows: List[DatasetRow]):
-    # any initial validation.
     if metadata.type == DatasetType.EXPERIMENTAL:
         dataset = create_experimental_dataset(metadata, rows)
     elif metadata.type == DatasetType.SET:
