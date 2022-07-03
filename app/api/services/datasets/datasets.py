@@ -47,19 +47,47 @@ def create_experimental_dataset(metadata: DatasetMetadata, rows: List[DatasetRow
     return Dataset(id=metadata.id, metadata=metadata, rows=rows_with_mappings)
 
 
-def create_set_dataset(metadata: DatasetMetadata, rows: List[DatasetRow]):
+def create_set_dataset(metadata: DatasetMetadata, rows: List[DatasetRow], perform_mapping: bool=False):
+    dataset_valid, validation_errors = validate_dataset(metadata, rows, DatasetType.SET)
+    if not dataset_valid:
+        raise Exception("-".join(validation_errors))
 
+    if perform_mapping:
+        rows_with_mappings, mapping_metadata = get_mappings(rows)
+        metadata.mapping_metadata = mapping_metadata
+        return Dataset(id=metadata.id, metadata=metadata, rows=rows_with_mappings)
+    else:
+        return Dataset(id=metadata.id, metadata=metadata, rows=rows)
 
 
 def create_dataset(metadata: DatasetMetadata, rows: List[DatasetRow]):
     # any initial validation.
     if metadata.type == DatasetType.EXPERIMENTAL:
         dataset = create_experimental_dataset(metadata, rows)
-    else:
-        raise NotImplementedError()
+    elif metadata.type == DatasetType.SET:
+        dataset = create_set_dataset(metadata, rows, perform_mapping=True)
+    elif metadata.type == DatasetType.QUERY:
+        dataset = create_set_dataset(metadata, rows)
     table = db.Table('Datasets')
     response = table.put_item(Item=json.loads(json.dumps(dataset.dict()), parse_float=Decimal))
     return response
+
+
+def update_dataset_metadata(id: str, metadata: DatasetMetadata):
+    table = db.Table('Datasets')  # referencing to table Sessions
+    response = table.update_item(  # update single item
+        Key={'id': id},  # using partition key specifying which attributes will get updated
+        UpdateExpression="""                
+            set
+                metadata=:metadata
+        """,
+        ExpressionAttributeValues={  # values defined in here will get injected to update expression
+            ':metadata': metadata.dict(),
+        },
+        ReturnValues="UPDATED_NEW"  # return the newly updated data point
+    )
+    return response
+
 
 
 def delete_dataset(id: str):

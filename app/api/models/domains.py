@@ -20,6 +20,7 @@ class DatasetMetadata(BaseModel):
     primary_category_key: Optional[str]
     other_categories_keys: Optional[List[str]]
     mapping_metadata: Optional[DatasetMappingMetadata]
+    query: Optional[Any]
 
 
 class DatasetRowMapping(BaseModel):

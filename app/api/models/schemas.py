@@ -20,3 +20,8 @@ class DatasetUpdateParams(BaseModel):
 class DatasetCreateParams(BaseModel):
     metadata: DatasetMetadata
     rows: List[DatasetRow]
+
+
+class DatasetUpdateMetadataParams(BaseModel):
+    id: str
+    metadata: DatasetMetadata

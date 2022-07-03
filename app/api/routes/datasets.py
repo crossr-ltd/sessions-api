@@ -2,9 +2,9 @@
 
 from fastapi import APIRouter, Request
 
-from app.api.models.schemas import DatasetCreateParams
+from app.api.models.schemas import DatasetCreateParams, DatasetUpdateMetadataParams
 from app.api.services.datasets.datasets import get_dataset, create_dataset, delete_dataset, \
-    get_all_datasets_metadata
+    get_all_datasets_metadata, update_dataset_metadata
 
 router = APIRouter()
 
@@ -14,9 +14,9 @@ async def dataset_get(request: Request, id: str):
     return get_dataset(id)
 
 
-# @router.post("/update")
-# async def dataset_update(request: Request, dataset_update_params: DatasetUpdateParams):
-#     return update_dataset(**dict(dataset_update_params))
+@router.post("/update/metadata")
+async def dataset_update_metadata(request: Request, dataset_update_metadata_params: DatasetUpdateMetadataParams):
+    return update_dataset_metadata(**dict(dataset_update_metadata_params))
 
 
 @router.get('/{id}/delete')
