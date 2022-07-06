@@ -49,7 +49,7 @@ def get_fdr_values(rows: List[DatasetRow]) -> List[DatasetRow]:
 
 def get_mappings(rows: List[DatasetRow]) -> Tuple[List[DatasetRow], DatasetMappingMetadata]:
     mapping_input_data = dict(mapping_keys=["id", "name"],
-                              mapping_values=[dict(id=row.id, name=row.name) for row in rows])
+                              mapping_values=[dict(id=row.source_id, name=row.source_name) for row in rows])
 
     headers = {'Content-Type': 'application/json',
                'Accept': 'application/json',
@@ -61,6 +61,8 @@ def get_mappings(rows: List[DatasetRow]) -> Tuple[List[DatasetRow], DatasetMappi
 
     for i, row in enumerate(rows):
         row.mapping = mapping_rows[i]
+        row.id = row.mapping.get('id', None)
+        row.name = row.mapping.get('name', None)
 
-    metadata = DatasetMappingMetadata(mapped_count=1, not_mapped_count=1)
+    metadata = DatasetMappingMetadata(mapped_count=len([row for row in rows if row.id is not None]), not_mapped_count=len([row for row in rows if row.id is None]))
     return rows, metadata

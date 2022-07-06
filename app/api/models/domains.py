@@ -42,6 +42,8 @@ class DatasetRow(BaseModel):
     primary_category_value: Optional[str]
     other_categories: Optional[dict]
     mapping: Optional[DatasetRowMapping]
+    source_id: Optional[str]
+    source_name: Optional[str]
 
 
 class Dataset(BaseModel):

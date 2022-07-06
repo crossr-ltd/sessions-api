@@ -27,6 +27,7 @@ def get_all_datasets_metadata(user_id):
     #         dataset.get('metadata', {}).get('user_id', '') == str(user_id)]
     return [dataset.get('metadata', {}) for dataset in datasets]
 
+
 def get_dataset(id: str) -> Dataset:
     try:
         table = db.Table('Datasets')  # referencing to table Datasets
@@ -49,7 +50,7 @@ def create_experimental_dataset(metadata: DatasetMetadata, rows: List[DatasetRow
     return Dataset(id=metadata.id, metadata=metadata, rows=rows_with_mappings)
 
 
-def create_set_dataset(metadata: DatasetMetadata, rows: List[DatasetRow], perform_mapping: bool=False):
+def create_set_dataset(metadata: DatasetMetadata, rows: List[DatasetRow], perform_mapping: bool = False):
     dataset_valid, validation_errors = validate_dataset(metadata, rows, DatasetType.SET)
     if not dataset_valid:
         raise Exception("-".join(validation_errors))
@@ -66,7 +67,7 @@ def create_set_dataset(metadata: DatasetMetadata, rows: List[DatasetRow], perfor
         return Dataset(id=metadata.id, metadata=metadata, rows=rows)
 
 
-def create_dataset(metadata: DatasetMetadata, rows: List[DatasetRow]):
+def create_dataset(metadata: DatasetMetadata, rows: List[DatasetRow], return_dataset=True):
     if metadata.type == DatasetType.EXPERIMENTAL:
         dataset = create_experimental_dataset(metadata, rows)
     elif metadata.type == DatasetType.SET:
@@ -75,7 +76,10 @@ def create_dataset(metadata: DatasetMetadata, rows: List[DatasetRow]):
         dataset = create_set_dataset(metadata, rows)
     table = db.Table('Datasets')
     response = table.put_item(Item=json.loads(json.dumps(dataset.dict()), parse_float=Decimal))
-    return response
+    if return_dataset:
+        return get_dataset(metadata.id)
+    else:
+        return response
 
 
 def update_dataset_metadata(id: str, metadata: DatasetMetadata):
@@ -92,7 +96,6 @@ def update_dataset_metadata(id: str, metadata: DatasetMetadata):
         ReturnValues="UPDATED_NEW"  # return the newly updated data point
     )
     return response
-
 
 
 def delete_dataset(id: str):
