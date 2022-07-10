@@ -20,6 +20,7 @@ class DatasetUpdateParams(BaseModel):
 class DatasetCreateParams(BaseModel):
     metadata: DatasetMetadata
     rows: List[DatasetRow]
+    perform_mapping: bool = True
 
 
 class DatasetUpdateMetadataParams(BaseModel):

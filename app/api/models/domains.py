@@ -35,7 +35,7 @@ class DatasetRowMapping(BaseModel):
 class DatasetRow(BaseModel):
     id: Optional[str]
     name: Optional[str]
-    node_type: Optional[str]
+    type: Optional[str]
     primary_quantification_value: Optional[float]
     p_value: Optional[float]
     fdr_value: Optional[float]

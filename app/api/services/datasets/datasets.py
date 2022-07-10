@@ -6,7 +6,7 @@ from boto3.resources.base import ServiceResource
 from botocore.exceptions import ClientError
 
 from app.api.models.domains import Dataset, DatasetMetadata, DatasetRow
-from app.api.services.datasets.utils import validate_dataset, get_fdr_values, get_mappings
+from app.api.services.datasets.utils import validate_dataset, get_fdr_values, get_mappings, get_mapping_metadata
 from app.api.utils.db import get_db
 from app.enums import DatasetType
 
@@ -37,17 +37,23 @@ def get_dataset(id: str) -> Dataset:
         raise ValueError(e.response['Error']['Message'])
 
 
-def create_experimental_dataset(metadata: DatasetMetadata, rows: List[DatasetRow]):
+def create_experimental_dataset(metadata: DatasetMetadata, rows: List[DatasetRow], perform_mapping: bool = True):
     dataset_valid, validation_errors = validate_dataset(metadata, rows, DatasetType.EXPERIMENTAL)
     if not dataset_valid:
         raise Exception("-".join(validation_errors))
 
     rows_with_fdr_value = get_fdr_values(rows)
-    rows_with_mappings, mapping_metadata = get_mappings(rows_with_fdr_value)
-    metadata.mapping_metadata = mapping_metadata
-    metadata.size = mapping_metadata.mapped_count
-    metadata.node_types = list(set([row.mapping['type'] for row in rows if row.mapping['type'] is not None]))
-    return Dataset(id=metadata.id, metadata=metadata, rows=rows_with_mappings)
+    if perform_mapping:
+        processed_rows, mapping_metadata = get_mappings(rows_with_fdr_value)
+        metadata.mapping_metadata = mapping_metadata
+    else:
+        processed_rows = rows
+        metadata.mapping_metadata = get_mapping_metadata(processed_rows)
+
+    metadata.size = len([row for row in processed_rows if row.id is not None])
+    metadata.node_types = list(set([row.type for row in rows if row.type is not None]))
+
+    return Dataset(id=metadata.id, metadata=metadata, rows=processed_rows)
 
 
 def create_set_dataset(metadata: DatasetMetadata, rows: List[DatasetRow], perform_mapping: bool = False):
@@ -67,13 +73,14 @@ def create_set_dataset(metadata: DatasetMetadata, rows: List[DatasetRow], perfor
         return Dataset(id=metadata.id, metadata=metadata, rows=rows)
 
 
-def create_dataset(metadata: DatasetMetadata, rows: List[DatasetRow], return_dataset=True):
+def create_dataset(metadata: DatasetMetadata, rows: List[DatasetRow], perform_mapping: bool, return_dataset=True):
     if metadata.type == DatasetType.EXPERIMENTAL:
-        dataset = create_experimental_dataset(metadata, rows)
+        print(perform_mapping)
+        dataset = create_experimental_dataset(metadata, rows, perform_mapping)
     elif metadata.type == DatasetType.SET:
-        dataset = create_set_dataset(metadata, rows, perform_mapping=True)
+        dataset = create_set_dataset(metadata, rows, perform_mapping)
     elif metadata.type == DatasetType.QUERY:
-        dataset = create_set_dataset(metadata, rows)
+        dataset = create_set_dataset(metadata, rows, perform_mapping)
     table = db.Table('Datasets')
     response = table.put_item(Item=json.loads(json.dumps(dataset.dict()), parse_float=Decimal))
     if return_dataset:

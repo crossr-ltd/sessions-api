@@ -47,6 +47,11 @@ def get_fdr_values(rows: List[DatasetRow]) -> List[DatasetRow]:
     return rows_with_fdr
 
 
+def get_mapping_metadata(rows: List[DatasetRow]):
+    return DatasetMappingMetadata(mapped_count=len([row for row in rows if row.id is not None]),
+                                  not_mapped_count=len([row for row in rows if row.id is None]))
+
+
 def get_mappings(rows: List[DatasetRow]) -> Tuple[List[DatasetRow], DatasetMappingMetadata]:
     mapping_input_data = dict(mapping_keys=["id", "name"],
                               mapping_values=[dict(id=row.source_id, name=row.source_name) for row in rows])
@@ -63,6 +68,7 @@ def get_mappings(rows: List[DatasetRow]) -> Tuple[List[DatasetRow], DatasetMappi
         row.mapping = mapping_rows[i]
         row.id = row.mapping.get('id', None)
         row.name = row.mapping.get('name', None)
+        row.type = row.mapping.get('type', None)
 
-    metadata = DatasetMappingMetadata(mapped_count=len([row for row in rows if row.id is not None]), not_mapped_count=len([row for row in rows if row.id is None]))
+    metadata = get_mapping_metadata(rows)
     return rows, metadata
