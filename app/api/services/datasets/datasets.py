@@ -44,11 +44,10 @@ def create_experimental_dataset(metadata: DatasetMetadata, rows: List[DatasetRow
 
     rows_with_fdr_value = get_fdr_values(rows)
     if perform_mapping:
-        processed_rows, mapping_metadata = get_mappings(rows_with_fdr_value)
-        metadata.mapping_metadata = mapping_metadata
+        processed_rows = get_mappings(rows_with_fdr_value)
     else:
         processed_rows = rows
-        metadata.mapping_metadata = get_mapping_metadata(processed_rows)
+    metadata.mapping_metadata = get_mapping_metadata(processed_rows)
 
     metadata.size = len([row for row in processed_rows if row.id is not None])
     metadata.node_types = list(set([row.type for row in rows if row.type is not None]))
@@ -75,7 +74,6 @@ def create_set_dataset(metadata: DatasetMetadata, rows: List[DatasetRow], perfor
 
 def create_dataset(metadata: DatasetMetadata, rows: List[DatasetRow], perform_mapping: bool, return_dataset=True):
     if metadata.type == DatasetType.EXPERIMENTAL:
-        print(perform_mapping)
         dataset = create_experimental_dataset(metadata, rows, perform_mapping)
     elif metadata.type == DatasetType.SET:
         dataset = create_set_dataset(metadata, rows, perform_mapping)

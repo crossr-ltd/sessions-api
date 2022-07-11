@@ -52,7 +52,22 @@ def get_mapping_metadata(rows: List[DatasetRow]):
                                   not_mapped_count=len([row for row in rows if row.id is None]))
 
 
-def get_mappings(rows: List[DatasetRow]) -> Tuple[List[DatasetRow], DatasetMappingMetadata]:
+def find_duplicates(rows: List[DatasetRow]):
+    # if using ID, remove ID duplicates.
+    # if using name, use name duplicates.
+    # if using both check for duplicates in both (this option for )
+    row_ids = [row.source_id for row in rows]
+    row_names = [row.source_name for row in rows]
+
+    dupe_ids = [x for n, x in enumerate(row_ids) if x in row_ids[:n]]
+    dupe_names = [x for n, x in enumerate(row_names) if x in row_names[:n]]
+
+    dupe_name_ids = [row.source_id for row in rows if row.source_name in dupe_names]
+
+    return list(set(dupe_ids + dupe_name_ids)), list(set(dupe_names))
+
+
+def get_mappings(rows: List[DatasetRow]) -> List[DatasetRow]:
     mapping_input_data = dict(mapping_keys=["id", "name"],
                               mapping_values=[dict(id=row.source_id, name=row.source_name) for row in rows])
 
@@ -64,11 +79,19 @@ def get_mappings(rows: List[DatasetRow]) -> Tuple[List[DatasetRow], DatasetMappi
     data = json.dumps(dict(node_mappings_input=mapping_input_data))
     mapping_rows: List[DatasetRowMapping] = requests.post(url, headers=headers, data=data).json()
 
+    duplicated_row_ids, duplicated_row_names = find_duplicates(rows)
+
     for i, row in enumerate(rows):
         row.mapping = mapping_rows[i]
+
+        if (row.source_id is not None and row.source_id in duplicated_row_ids) or (
+                row.source_name is not None and row.source_name in duplicated_row_names):
+            row.mapping['duplicate'] = True
+            continue
+
         row.id = row.mapping.get('id', None)
         row.name = row.mapping.get('name', None)
         row.type = row.mapping.get('type', None)
 
-    metadata = get_mapping_metadata(rows)
-    return rows, metadata
+    return rows
+

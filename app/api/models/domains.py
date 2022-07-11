@@ -30,6 +30,7 @@ class DatasetRowMapping(BaseModel):
     id: Optional[str]
     name: Optional[str]
     type: Optional[str]
+    duplicate: Optional[bool]
 
 
 class DatasetRow(BaseModel):
