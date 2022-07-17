@@ -92,6 +92,5 @@ def get_mappings(rows: List[DatasetRow]) -> List[DatasetRow]:
         row.id = row.mapping.get('id', None)
         row.name = row.mapping.get('name', None)
         row.type = row.mapping.get('type', None)
-
     return rows
 

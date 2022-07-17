@@ -25,7 +25,7 @@ def get_all_datasets_metadata(user_id):
     datasets = response.get('Items', [])
     # return [dataset.get('metadata', {}) for dataset in datasets if
     #         dataset.get('metadata', {}).get('user_id', '') == str(user_id)]
-    return [dataset.get('metadata', {}) for dataset in datasets]
+    return [dataset.get('metadata', {}) for dataset in datasets if dataset.get('metadata', {}).get('user_id', '') == str(user_id)]
 
 
 def get_dataset(id: str) -> Dataset:
@@ -59,13 +59,12 @@ def create_set_dataset(metadata: DatasetMetadata, rows: List[DatasetRow], perfor
     dataset_valid, validation_errors = validate_dataset(metadata, rows, DatasetType.SET)
     if not dataset_valid:
         raise Exception("-".join(validation_errors))
-
     if perform_mapping:
-        rows_with_mappings, mapping_metadata = get_mappings(rows)
-        metadata.mapping_metadata = mapping_metadata
-        metadata.size = mapping_metadata.mapped_count
+        processed_rows = get_mappings(rows)
+        metadata.mapping_metadata = get_mapping_metadata(processed_rows)
+        metadata.size = len([row for row in processed_rows if row.id is not None])
         metadata.node_types = list(set([row.mapping['type'] for row in rows if row.mapping['type'] is not None]))
-        return Dataset(id=metadata.id, metadata=metadata, rows=rows_with_mappings)
+        return Dataset(id=metadata.id, metadata=metadata, rows=processed_rows)
     else:
         metadata.size = len(rows)
         metadata.node_types = list(set([row.node_type for row in rows if row.mapping['type'] is not None]))
