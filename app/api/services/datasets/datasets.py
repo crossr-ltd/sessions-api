@@ -67,7 +67,7 @@ def create_set_dataset(metadata: DatasetMetadata, rows: List[DatasetRow], perfor
         return Dataset(id=metadata.id, metadata=metadata, rows=processed_rows)
     else:
         metadata.size = len(rows)
-        metadata.node_types = list(set([row.type for row in rows if row.mapping.type is not None]))
+        metadata.node_types = list(set([row.type for row in rows if row.type is not None]))
         return Dataset(id=metadata.id, metadata=metadata, rows=rows)
 
 

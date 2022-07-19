@@ -4,4 +4,5 @@ ALLOWED_HOSTS = [
     "http://localhost",
     "http://localhost:3000",
     "https://app.crossr.co.uk",
+    "https://novonordisk-dev.crossr.co.uk",
 ]
