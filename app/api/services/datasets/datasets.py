@@ -59,16 +59,17 @@ def create_set_dataset(metadata: DatasetMetadata, rows: List[DatasetRow], perfor
     dataset_valid, validation_errors = validate_dataset(metadata, rows, DatasetType.SET)
     if not dataset_valid:
         raise Exception("-".join(validation_errors))
+
     if perform_mapping:
         processed_rows = get_mappings(rows)
-        metadata.mapping_metadata = get_mapping_metadata(processed_rows)
-        metadata.size = len([row for row in processed_rows if row.id is not None])
-        metadata.node_types = list(set([row.mapping['type'] for row in rows if row.mapping['type'] is not None]))
-        return Dataset(id=metadata.id, metadata=metadata, rows=processed_rows)
     else:
-        metadata.size = len(rows)
-        metadata.node_types = list(set([row.type for row in rows if row.type is not None]))
-        return Dataset(id=metadata.id, metadata=metadata, rows=rows)
+        processed_rows = rows
+    metadata.mapping_metadata = get_mapping_metadata(processed_rows)
+
+    metadata.size = len([row for row in processed_rows if row.id is not None])
+    metadata.node_types = list(set([row.type for row in rows if row.type is not None]))
+
+    return Dataset(id=metadata.id, metadata=metadata, rows=processed_rows)
 
 
 def create_dataset(metadata: DatasetMetadata, rows: List[DatasetRow], perform_mapping: bool, return_dataset=True):
